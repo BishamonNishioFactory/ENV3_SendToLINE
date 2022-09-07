@@ -136,7 +136,9 @@ const int WBGT[20][17] = {{15,15,16,16,17,17,18,19,19,20,20,21,21,22,23,23,24},
 
 //Lineまわりの設定◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎
 //const char* lineApiToken = "PVCmkjDuuqJlHTKflnB9pbLp4JzL2l6P3niyjyXJmnf"; //ATKMグループ
-const char* lineApiToken = "2l6LKlSW715DICCAM8D1YAmkiUS0fWwUWlcSH1P1qH1"; //単独通知
+//const char* lineApiToken = "2l6LKlSW715DICCAM8D1YAmkiUS0fWwUWlcSH1P1qH1"; //単独通知
+
+const char* lineApiToken = "TJyRhpjCqY8Kzwc3jLVcBZdih4xhHCXZAs6trx9E7Ak";//Yamazaki(AIK)グループ
 
 //const char* lineApiToken = "LBoRUawHvBonDGG26k7pB5BokaF2hrXHEkNLCMsx9ZT"; //テスト用
 
@@ -182,10 +184,11 @@ void printLocalTime() {
   }
 
   if (sHor != RTC_TimeStruct.Hours) {  //時間の時が変わったら、温度などをLINEに自動送信
-    
-    GenENV();
-    PIR_Counter = 0;  //PIR反応回数をリセットする。一時間あたりの反応回数で、活動量を把握する。
-    bl1stSen =false;  //時が変わったら、センシング時刻のフラッグをfalseにする。これで、次回のLoopでのPIR反応時間が格納される。
+    if(PIR_Counter!=0){     //PIRセンシングがあった場合のみ、LINE送信を実行する。
+      GenENV();
+      PIR_Counter = 0;  //PIR反応回数をリセットする。一時間あたりの反応回数で、活動量を把握する。
+      bl1stSen =false;  //時が変わったら、センシング時刻のフラッグをfalseにする。これで、次回のLoopでのPIR反応時間が格納される。
+    }
   }
 
  
